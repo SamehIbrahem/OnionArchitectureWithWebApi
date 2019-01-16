@@ -9,6 +9,10 @@ namespace SmartTech.Services.Faculties
 {
     public interface IFacultyService
     {
+        /// <summary>
+        /// Get all faculties.
+        /// </summary>
+        /// <returns></returns>
         IEnumerable<Faculty> GetFaculties();
     }
 }
