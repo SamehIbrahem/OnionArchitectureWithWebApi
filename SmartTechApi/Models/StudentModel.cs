@@ -13,7 +13,7 @@ namespace SmartTechApi.Models
         public string ImageName { get; set; }
         public string Address { get; set; }
         public string Phone { get; set; }
-        public string FacultyName { get; set; }
+        public int FacultyId { get; set; }
 
     }
 }
