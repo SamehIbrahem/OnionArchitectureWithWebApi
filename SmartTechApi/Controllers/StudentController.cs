@@ -1,4 +1,5 @@
 ﻿using SmartTech.Services.Students;
+using SmartTechApi.Extensions;
 using SmartTechApi.Models;
 using System;
 using System.Collections.Generic;
@@ -28,7 +29,8 @@ namespace SmartTechApi.Controllers
         {
             try
             {
-                return Ok(_studentService.GetStudents());
+                //get all students from the service, map each student entity to student model
+                return Ok(_studentService.GetStudents().Select(e => e.ToModel()));
             }
             catch (Exception ex)
             {
@@ -40,7 +42,7 @@ namespace SmartTechApi.Controllers
         {
             try
             {
-                return Ok(_studentService.GetById(id));
+                return Ok(_studentService.GetById(id).ToModel());
             }
             catch (Exception ex)
             {
@@ -48,9 +50,9 @@ namespace SmartTechApi.Controllers
             }
         }
 
-        [HttpPost]
-        [Route("api/student/delete-student")]
-        public IHttpActionResult DeleteStudent([FromBody]int id)
+        [HttpGet]
+        [Route("api/student/delete")]
+        public IHttpActionResult DeleteStudent(int id)
         {
             try
             {
@@ -65,12 +67,42 @@ namespace SmartTechApi.Controllers
 
 
         [HttpPost]
-        [Route("api/student/add-student")]
+        [Route("api/student/add")]
         public IHttpActionResult AddStudent([FromBody]StudentModel studentModel)
         {
             try
             {
-               // _studentService.Delete(id);
+                if (studentModel == null)
+                    throw new ArgumentNullException(nameof(studentModel), "student model can not be null");
+
+                var entity = studentModel.ToEntity();
+                _studentService.Insert(entity);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+
+        [HttpPost]
+        [Route("api/student/edit")]
+        public IHttpActionResult EditStudent([FromBody]StudentModel studentModel)
+        {
+            try
+            {
+                if (studentModel == null)
+                    throw new ArgumentNullException(nameof(studentModel), "student model can not be null");
+                if (studentModel.Id <= 0)
+                    throw new ArgumentException("student id must be positive integer.");
+
+                var entity = _studentService.GetById(studentModel.Id);
+                if (entity == null)
+                    throw new ArgumentException("There is no student with this id.");
+
+                var newStudent = studentModel.ToEntity(entity);
+                _studentService.Update(newStudent);
                 return Ok();
             }
             catch (Exception ex)

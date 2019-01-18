@@ -31,7 +31,17 @@ namespace SmartTechApi.Extensions
         {
             return model.MapTo<StudentModel, Student>();
         }
-       
+
+        /// <summary>
+        /// Map Student model to Entity
+        /// </summary>
+        /// <param name="model">The  Student model.</param>
+        /// <returns></returns>
+        public static Student ToEntity(this StudentModel model,Student entity)
+        {
+            return model.MapTo<StudentModel, Student>(entity);
+        }
+
 
         /// <summary>
         /// Generic method for mapping source to destination 

@@ -2,6 +2,8 @@
 using SmartTech.Repo.Interfaces;
 using SmartTech.Services.Faculties;
 using SmartTech.Services.Implementations.Faculties;
+using SmartTech.Services.Implementations.Students;
+using SmartTech.Services.Students;
 using SmartTechApi.Infrastructure;
 using System;
 using System.Collections.Generic;
@@ -18,6 +20,7 @@ namespace SmartTechApi
             var container = new UnityContainer();
             container.RegisterType(typeof(IRepository<>), typeof(EfRepository<>));
             container.RegisterType<IFacultyService, FacultyService>();
+            container.RegisterType<IStudentService, StudentService>();
 
             config.DependencyResolver = new UnityResolver(container);
 
