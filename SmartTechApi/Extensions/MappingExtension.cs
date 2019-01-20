@@ -20,6 +20,16 @@ namespace SmartTechApi.Extensions
             return entity.MapTo<Student, StudentModel>();
         }
 
+        /// <summary>
+        /// Map faculty to model.
+        /// </summary>
+        /// <param name="entity">The faculty instance.</param>
+        /// <returns></returns>
+        public static FacultyModel ToModel(this Faculty entity)
+        {
+            return entity.MapTo<Faculty, FacultyModel>();
+        }
+
 
 
         /// <summary>

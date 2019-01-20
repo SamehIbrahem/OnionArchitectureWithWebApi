@@ -1,4 +1,5 @@
 ﻿using SmartTech.Services.Faculties;
+using SmartTechApi.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,8 +24,8 @@ namespace SmartTechApi.Controllers
         {
             try
             {
-                var data = _facultySevice.GetFaculties();
-                return Ok(data);
+                //get the faculties, convert the entities to models and return them
+                return Ok(_facultySevice.GetFaculties().Select(e=>e.ToModel()));
             }
             catch (Exception ex)
             {

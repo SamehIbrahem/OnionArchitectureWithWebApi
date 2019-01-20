@@ -23,8 +23,10 @@ namespace SmartTechApi.Infrastructure
         {
             MapperConfiguration = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<StudentModel, Student>(MemberList.None).ReverseMap();
-                //.ForMember(d => d.Name, opt => opt.MapFrom(s => s.Name))
+                cfg.CreateMap<StudentModel, Student>(MemberList.None).ReverseMap()
+                .ForMember(d => d.Age, opt => opt.MapFrom(s => DateTime.Now.Year - s.BirthDate.Year));
+
+                cfg.CreateMap<FacultyModel, Faculty>(MemberList.None).ReverseMap();
 
             });
             Mapper = MapperConfiguration.CreateMapper();
