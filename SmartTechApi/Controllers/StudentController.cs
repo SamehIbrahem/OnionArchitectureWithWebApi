@@ -2,10 +2,7 @@
 using SmartTechApi.Extensions;
 using SmartTechApi.Models;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 
 namespace SmartTechApi.Controllers
@@ -23,6 +20,10 @@ namespace SmartTechApi.Controllers
         {
             _studentService = studentService;
         }
+
+        #endregion
+
+        #region Methods
 
 
         public IHttpActionResult Get()
@@ -70,19 +71,27 @@ namespace SmartTechApi.Controllers
         [Route("api/student/add")]
         public IHttpActionResult AddStudent([FromBody]StudentModel studentModel)
         {
-            try
+            if (ModelState.IsValid)
             {
-                if (studentModel == null)
-                    throw new ArgumentNullException(nameof(studentModel), "student model can not be null");
+                try
+                {
+                    if (studentModel == null)
+                        throw new ArgumentNullException(nameof(studentModel), "student model can not be null");
 
-                var entity = studentModel.ToEntity();
-                _studentService.Insert(entity);
-                return Ok();
+                    var entity = studentModel.ToEntity();
+                    _studentService.Insert(entity);
+                    return Ok();
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(ex.Message);
+                }
             }
-            catch (Exception ex)
+            else
             {
-                return BadRequest(ex.Message);
+                return BadRequest(ModelState);
             }
+
         }
 
 
@@ -90,25 +99,33 @@ namespace SmartTechApi.Controllers
         [Route("api/student/edit")]
         public IHttpActionResult EditStudent([FromBody]StudentModel studentModel)
         {
-            try
+            if (ModelState.IsValid)
             {
-                if (studentModel == null)
-                    throw new ArgumentNullException(nameof(studentModel), "student model can not be null");
-                if (studentModel.Id <= 0)
-                    throw new ArgumentException("student id must be positive integer.");
+                try
+                {
+                    if (studentModel == null)
+                        throw new ArgumentNullException(nameof(studentModel), "student model can not be null");
+                    if (studentModel.Id <= 0)
+                        throw new ArgumentException("student id must be positive integer.");
 
-                var entity = _studentService.GetById(studentModel.Id);
-                if (entity == null)
-                    throw new ArgumentException("There is no student with this id.");
+                    var entity = _studentService.GetById(studentModel.Id);
+                    if (entity == null)
+                        throw new ArgumentException("There is no student with this id.");
 
-                var newStudent = studentModel.ToEntity(entity);
-                _studentService.Update(newStudent);
-                return Ok();
+                    var newStudent = studentModel.ToEntity(entity);
+                    _studentService.Update(newStudent);
+                    return Ok();
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(ex.Message);
+                }
             }
-            catch (Exception ex)
+            else
             {
-                return BadRequest(ex.Message);
+                return BadRequest(ModelState);
             }
+
         }
 
 
