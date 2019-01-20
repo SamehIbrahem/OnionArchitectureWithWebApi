@@ -22,6 +22,8 @@ namespace SmartTech.Repo.Context
                 .HasForeignKey(e => e.FacultyId);
 
             modelBuilder.Entity<Student>().Property(p => p.Name).IsRequired();
+            modelBuilder.Entity<Student>().Property(p => p.Address).IsRequired();
+            modelBuilder.Entity<Student>().Property(p => p.Phone).IsRequired();
         }
 
         public DbSet<Faculty> Faculties { get; set; }
