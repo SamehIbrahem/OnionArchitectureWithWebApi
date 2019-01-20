@@ -11,14 +11,23 @@ namespace SmartTechApi.Controllers
 {
     public class FacultyController : ApiController
     {
+        #region Fields
         private readonly IFacultyService _facultySevice;
 
+        #endregion
+
+        #region Ctor
+
+        //inject the faculty service in the constructor
         public FacultyController(IFacultyService facultySevice)
         {
             _facultySevice = facultySevice;
         }
 
+        #endregion
 
+
+        #region Actions
 
         public IHttpActionResult Get()
         {
@@ -34,5 +43,7 @@ namespace SmartTechApi.Controllers
 
 
         }
+
+        #endregion
     }
 }

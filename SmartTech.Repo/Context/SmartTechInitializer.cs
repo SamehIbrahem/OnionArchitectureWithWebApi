@@ -8,8 +8,12 @@ using System.Threading.Tasks;
 
 namespace SmartTech.Repo.Context
 {
+
     public class SmartTechInitializer : System.Data.Entity.DropCreateDatabaseIfModelChanges<SmartTechContext>
     {
+        /// <summary>
+        /// Initalize the database with some data
+        /// </summary>
         protected override void Seed(SmartTechContext context)
         {
 
